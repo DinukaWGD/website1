@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>AdminDashboard</title>
+<link rel="stylesheet" href="admin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<div id="ab1">
+	
+	<div class="adm1">
+    <h2 id="adm1">Availabal Products</h2>
+    </div>
+    
+    <div class="adm2">
+	<a class="btn btn-primary" href="/create">Add</a>
+	
+    <!--<button type="button" class="btn btn-primary" id="bttn">Add</button>-->
+    </div>
+    
+	
+	
+	
+	
+	<table class="table" >
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>PricePer500g</th>
+				<th>PricePer1kg</th>
+				<th>Description</th>
+				<th>CreateAt</th>
+				<th>Image</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="item : ${items}">
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.name}"></td>
+				<td th:text="@{${item.pricePer500g} + 'Rs'}"></td>
+				<td th:text="@{${item.pricePer1kg} + 'Rs'}"></td>
+				<td th:text="${item.description}"></td>
+				
+				<td th:text="${item.createAt.toString().substring(0,10)}"></td>
+				
+				
+				<td>
+					<img th:src="@{'/images/' +${item.imageFileName}}" width="100px">
+				</td>
+				
+				<td style="white-space:nowrap">
+					<a class="btn btn-primary btn -sm" th:href="@{items/edit(id=${item.id})}">Edit</a>
+					<a class="btn btn-danger btn -sm" th:href="@{items/delete(id=${item.id})}" onclick="return confirm('Are You Sure??')">Delete</a>
+					
+				</td>
+			</tr>
+		</tbody>
+		
+		
+	</table>
+	
+		
+	
+	
+</div>
+
+
+
+       <!-- <script>
+	        document.getElementById("bttn").onclick=function(){
+		    //alert("new window open");
+		    window.open("/create", "_blank");
+	       }
+	
+	
+         </script> -->
+
+
+</body>
+</html>

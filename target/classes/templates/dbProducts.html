@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="dbproduct.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <style>
+        /* Style for the pop-up window */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: antiquewhite;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        /* Style for close button */
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            
+        }
+        
+        .close:hover{
+			background-color:red;
+			
+		}
+		
+		.popup:hover{
+			color:red ;
+			font-weight:bold ;
+		}
+		 .popup button:hover{
+			 background-color:red;
+		 }
+    </style>
+</head>
+<body>
+    <h1 class="container xx">Welcome To Our Products</h1>
+    
+	
+    
+  <!--  <div class="container justify-content-center">
+        <div class="row bn justify-content-center ">
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea1.png', 'Herbal Tea', '500g', '$5.99')"><img src="/images/tea1.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea2.png', 'Green Tea', '500g', '$4.99')"><img src="/images/tea2.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea3.png', 'Flower Tea', '500g', '$6.49')"><img src="/images/tea3.png" height="250px"></a></div>
+        </div>
+        <div class="row bn justify-content-center ">
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea4.png', 'Fruits Tea', '500g', '$7.99')"><img src="/images/tea4.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea5.png', 'Tea Mix', '500g', '$8.99')"><img src="/images/tea5.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea6.png', 'Blende Tea', '500g', '$9.49')"><img src="/images/tea6.png" height="250px"></a></div>
+        </div>
+    </div>-->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="container">
+    
+        
+         
+            
+            
+            
+            
+            <div class="row bn justify-content-center">
+				
+                 <!--<div class="col gg px-4 py-4"><a href="#" th:onclick="showProductDetails('/images/tea2.png',  'tb' + ${ditem.id}   , '500g', '$4.99')"><img th:src="@{'/images/' +${ditem.imageFileName}}" height="300px"></a></div>-->
+                <div th:each="ditem : ${dbitems}"  class="col gg px-4 py-4">
+					
+					
+					
+					<table>
+					<thead></thead>
+					<tbody>
+						<tr>
+							<!--<p id="t1"><td  th:text="${ditem.name}"></td></p>-->
+							<td th:id="'tb' + ${ditem.id}"  th:text="${ditem.name}"></td>
+							<td th:id="'ti' + ${ditem.id}"  th:text="'/images/'+ ${ditem.imageFileName}"></td>
+							<td th:id="'tc' + ${ditem.id}"  th:text="@{${ditem.pricePer500g} + 'Rs'}"></td>
+							<td th:id="'td' + ${ditem.id}"  th:text="@{${ditem.pricePer1kg} + 'Rs'}"></td>
+						</tr>
+					</tbody>
+				  </table>
+					
+					
+					
+					
+					
+					
+					
+					
+					<a href="#" th:onclick="'showProductDetails(\'ti' + ${ditem.id} + '\' ,  \'tb' + ${ditem.id} + '\'  , \'500g\',\'tc' + ${ditem.id} + '\' ,  \'td' + ${ditem.id} + '\'    )'"><img th:src="@{'/images/' +${ditem.imageFileName}}" height="300px"></a>
+				</div>
+                
+                             
+                
+            </div>  
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+    </div>
+
+
+                
+  
+        
+        
+           
+       
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Popup window -->
+    <div id="productPopup" class="popup">
+        <span class="close" onclick="closeProductPopup()">&times;</span>
+        <div id="popupContent">
+            <!-- Content will be added dynamically -->
+        </div>
+    </div>
+
+    <script>
+		
+        function showProductDetails(imageSrc, productName, quantity, productPrice,productPriceA) {
+			
+			
+			//var imageSrc=/*[[imageSrc1]]*/ "Test";
+			 //var productName=th:text="${productName}";
+			//var productPrice=/*[[productPrice1]]*/ "Test";
+			
+            var popup = document.getElementById("productPopup");
+            var popupContent = document.getElementById("popupContent");
+            
+            var productNameElement = document.getElementById(productName);
+			var productNameText = productNameElement.textContent;
+			
+			var productNameElement1 = document.getElementById(imageSrc);
+			var productNameText1 = productNameElement1.textContent;
+			
+			var productNameElement2 = document.getElementById(productPrice);
+			var productNameText2 = productNameElement2.textContent;
+			
+			var productNameElement3 = document.getElementById(productPriceA);
+			var productNameText3 = productNameElement3.textContent;
+            
+            
+            popupContent.innerHTML = "<img src='" + productNameText1 + "' alt='Product Image' style='max-width: 100%;'><br>" +
+               "<p>Product: " +productNameText+ "<br>Price500g: <span id='productPrice'>" + productNameText2 + "</span>  <br>Price1kg: <span id='productPrice'>" + productNameText3 + "</span></p>" +   
+               
+                "<form>" +
+				"<label >Select Quantity:   </label>" +
+                "<input type='radio' id='500g' name='quantity' value='500g' onchange='updatePrice(this.value, \"" + productName + "\", \"" + quantity + "\")'>500g" +
+              
+                "<input type='radio' id='1kg' name='quantity' value='1kg' onchange='updatedPrice()'>1kg<br>" +
+                
+                 
+                "<input type='text' id='num' placeholder='NumOfPackets'><br>" +
+               
+                "<button  onclick='checkout()'>Checkout</button>" +
+                "<button  onclick='orderNow()'>Order Now</button>" +
+                
+               
+                "</form>"; 
+                
+            popup.style.display = "block";
+            //"<p id='t2'>" + productNameText + "</p>"
+            
+            
+            
+            
+            
+             
+              
+              function updatedPrice(){
+				  var priceElement = document.getElementById("productPrice");
+				  priceElement.textContent = productNameText3;
+			  }
+            
+            
+            
+            productNameElement==null;
+            productNameText==null;
+            
+            productNameElement1==null;
+            productNameText1==null; 
+            
+            productNameElement2==null;  
+            productNameText2==null; 
+            
+            
+            productNameElement3==null;  
+            productNameText3==null; 
+        }
+
+       
+       
+       
+       
+       
+       
+       
+       
+        function closeProductPopup() {
+            var popup = document.getElementById("productPopup");
+            popup.style.display = "none";
+        }
+
+       
+
+        function checkout() {
+            console.log("Checkout button clicked");
+            window.open("/checkout", "_blank"); // Opens in a new tab/window
+        }
+
+         function orderNow() {
+             window.history.go(-2);
+             
+             
+          }
+
+        
+        
+  
+       
+
+    </script>
+</body>
+</html>

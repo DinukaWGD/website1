@@ -1,0 +1,29 @@
+@charset "ISO-8859-1";
+#bacimg{
+	background-image:url("images/makeproduct.jpg") ;
+	background-size:cover;
+	background-repeat: no-repeat;
+	height:100vh ;
+	display: flex;
+	position: relative;
+	
+	
+}
+
+#createcon{
+	z-index:1 ;
+	
+	background-color:rgba(255, 255, 255, 0.5); ;
+	width:800px;
+	height: 720px;
+	align-items: center;
+	justify-content: center
+	
+	
+}
+
+
+
+
+
+

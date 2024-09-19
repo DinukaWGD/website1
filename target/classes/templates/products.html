@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <style>
+        /* Style for the pop-up window */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: antiquewhite;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+
+        /* Style for close button */
+        .close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="container xx">Welcome To Our Products</h1>
+    
+	
+    
+  <!--  <div class="container justify-content-center">
+        <div class="row bn justify-content-center ">
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea1.png', 'Herbal Tea', '500g', '$5.99')"><img src="/images/tea1.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea2.png', 'Green Tea', '500g', '$4.99')"><img src="/images/tea2.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea3.png', 'Flower Tea', '500g', '$6.49')"><img src="/images/tea3.png" height="250px"></a></div>
+        </div>
+        <div class="row bn justify-content-center ">
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea4.png', 'Fruits Tea', '500g', '$7.99')"><img src="/images/tea4.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea5.png', 'Tea Mix', '500g', '$8.99')"><img src="/images/tea5.png" height="250px"></a></div>
+            <div class="col"><a href="#" onclick="showProductDetails('/images/tea6.png', 'Blende Tea', '500g', '$9.49')"><img src="/images/tea6.png" height="250px"></a></div>
+        </div>
+    </div>-->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="container">
+    
+        
+            <div class="row bn justify-content-center">
+                <div class="col gg px-4 py-4"><a href="#" onclick="showProductDetails('/images/tea1.png', 'Herbal Tea', '500g', '$5.99')"><img src="/images/tea1.png" height="300px"></a></div>
+                <div class="col gg px-4 py-4"><a href="#" onclick="showProductDetails('/images/tea2.png', 'Green Tea', '500g', '$4.99')"><img src="/images/tea2.png" height="300px"></a></div>
+                <div class="col gg px-4 py-4"><a href="#" onclick="showProductDetails('/images/tea3.png', 'Flower Tea', '500g', '$6.49')"><img src="/images/tea3.png" height="300px"></a></div>
+            </div>
+        
+        
+            <div class="row bn justify-content-center">
+                <div class="col gg px-4 py-4"><a href="#" onclick="showProductDetails('/images/tea4.png', 'Fruits Tea', '500g', '$7.99')"><img src="/images/tea4.png" height="300px"></a></div>
+                <div class="col gg px-4 py-4"><a href="#" onclick="showProductDetails('/images/tea5.png', 'Tea Mix', '500g', '$8.99')"><img src="/images/tea5.png" height="300px"></a></div>
+                <div class="col gg px-4 py-4"><a href="#" onclick="showProductDetails('/images/tea6.png', 'Blende Tea', '500g', '$9.49')"><img src="/images/tea6.png" height="300px"></a></div>
+            </div>
+        
+       
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <!-- Popup window -->
+    <div id="productPopup" class="popup">
+        <span class="close" onclick="closeProductPopup()">&times;</span>
+        <div id="popupContent">
+            <!-- Content will be added dynamically -->
+        </div>
+    </div>
+
+    <script>
+        function showProductDetails(imageSrc, productName, quantity, productPrice) {
+            var popup = document.getElementById("productPopup");
+            var popupContent = document.getElementById("popupContent");
+            popupContent.innerHTML = "<img src='" + imageSrc + "' alt='Product Image' style='max-width: 100%;'><br>" +
+                "<p>Product: " + productName + "<br>Price: <span id='productPrice'>" + productPrice + "</span></p>" +
+                
+                
+                "<form>" +
+				"<label >Select Quantity:   </label>" +
+                "<input type='radio' id='500g' name='quantity' value='500g' onchange='updatePrice(this.value, \"" + productName + "\", \"" + quantity + "\")'>500g" +
+              
+                "<input type='radio' id='1kg' name='quantity' value='1kg' onchange='updatePrice(this.value, \"" + productName + "\", \"" + quantity + "\")'>1kg<br>" +
+                
+                 
+                "<input type='text' id='num' placeholder='NumOfPackets'><br>" +
+               
+                "<button onclick='checkout()'>Checkout</button>" +
+                "<button onclick='orderNow()'>Order Now</button>" +
+                
+               
+                "</form>"; 
+                
+            popup.style.display = "block";
+        }
+
+        function closeProductPopup() {
+            var popup = document.getElementById("productPopup");
+            popup.style.display = "none";
+        }
+
+        function updatePrice(selectedValue, productName, quantity) {
+            var priceElement = document.getElementById("productPrice");
+            var price;
+            if (selectedValue === '500g') {
+                price = getPrice(productName, quantity, '500g');
+            } else if (selectedValue === '1kg') {
+                price = getPrice(productName, quantity, '1kg');
+            }
+            priceElement.textContent = price;
+        }
+
+        function getPrice(productName, quantity, selectedQuantity) {
+            // Define prices for each tea type and quantity
+            var prices = {
+                'Herbal Tea': {'500g': '$5.99', '1kg': '$10.99'},
+                'Green Tea': {'500g': '$4.99', '1kg': '$9.99'},
+                'Flower Tea': {'500g': '$6.49', '1kg': '$11.99'},
+                'Fruits Tea': {'500g': '$7.99', '1kg': '$12.99'},
+                'Tea Mix': {'500g': '$8.99', '1kg': '$13.99'},
+                'Blende Tea': {'500g': '$9.49', '1kg': '$14.99'}
+            };
+            return prices[productName][selectedQuantity];
+        }
+
+        function checkout() {
+            console.log("Checkout button clicked");
+            window.open("/checkout", "_blank"); // Opens in a new tab/window
+        }
+
+         function orderNow() {
+             window.history.go(-2);
+             
+             
+          }
+
+        
+        
+
+       
+
+    </script>
+</body>
+</html>
